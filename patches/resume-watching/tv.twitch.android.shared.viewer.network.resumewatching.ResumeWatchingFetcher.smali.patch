@@ -1,0 +1,33 @@
+diff --git a/smali_classes8/tv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher.smali b/smali_classes8/tv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher.smali
+--- a/smali_classes8/tv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher.smali
++++ b/smali_classes8/tv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher.smali
+@@ -186,10 +186,6 @@
+ 
+     move-result p1
+ 
+-    sget v0, Ltv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher;->LIVE_STREAM_WATCHED_POS_OFFSET_SECONDS:I
+-
+-    sub-int/2addr p1, v0
+-
+     invoke-static {p1, v1}, Lkotlin/ranges/RangesKt;->coerceAtLeast(II)I
+ 
+     move-result p1
+@@ -479,7 +475,17 @@
+ 
+     .line 57
+     :cond_2
+-    invoke-virtual {p0, p2, p3}, Ltv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher;->updateCachedLastWatchedPosition(Ljava/lang/String;I)V
++    # BTTV: normalize live positions once, at the write boundary.
++    # VOD positions are already on the VOD timeline. Keep p3 unchanged for API writes.
++    move v0, p3
++
++    if-eqz p4, :bttv_cache_position
++
++    sget v0, Ltv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher;->LIVE_STREAM_WATCHED_POS_OFFSET_SECONDS:I
++    sub-int v0, p3, v0
++
++    :bttv_cache_position
++    invoke-virtual {p0, p2, v0}, Ltv/twitch/android/shared/viewer/network/resumewatching/ResumeWatchingFetcher;->updateCachedLastWatchedPosition(Ljava/lang/String;I)V
+ 
+     if-eqz p4, :cond_3
+ 
