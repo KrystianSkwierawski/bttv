@@ -138,14 +138,14 @@ public enum Settings {
             new Entry.BoolEntry(
                     "bttv_auto_update_checks_enabled",
                     new Entry.BoolValue(true),
-                    Res.strings.bttv_auto_update_checks_enabled,
+                    null, // Updater removed; retain the preference key for compatibility.
                     Res.strings.bttv_auto_update_checks_enabled_secondary,
                     null
             )
     ),
     InvokeUpdateCheck(
             new Entry.LinkEntry(
-                    Res.strings.bttv_settings_invoke_update_check,
+                    null, // No manual update entry in this build.
                     null,
                     null,
                     SettingsDestination.BTTV_INVOKE_UPDATE_CHECK
