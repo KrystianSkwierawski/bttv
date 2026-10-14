@@ -1,0 +1,20 @@
+diff --git a/smali_classes7/tv/twitch/android/shared/player/presenters/VodPlayerPresenter.smali b/smali_classes7/tv/twitch/android/shared/player/presenters/VodPlayerPresenter.smali
+--- a/smali_classes7/tv/twitch/android/shared/player/presenters/VodPlayerPresenter.smali
++++ b/smali_classes7/tv/twitch/android/shared/player/presenters/VodPlayerPresenter.smali
+@@ -239,11 +239,14 @@
+     .line 80
+     sget-object v1, Ltv/twitch/android/shared/player/models/ContentFormat;->HLS:Ltv/twitch/android/shared/player/models/ContentFormat;
+ 
+-    const/4 v2, 0x2
++    # BTTV: use the existing ExoPlayer backend for VOD playback.
++    # Clear the Kotlin default-argument mask so forceExoPlayer is honored.
++    # PlayerConfiguration still gives DRM content priority over this flag.
++    const/4 v2, 0x0
+ 
+     const/4 v3, 0x0
+ 
+-    const/4 v4, 0x0
++    const/4 v4, 0x1
+ 
+     invoke-static {v0, v1, v4, v2, v3}, Ltv/twitch/android/shared/player/models/PlayerConfiguration$Factory$DefaultImpls;->create$default(Ltv/twitch/android/shared/player/models/PlayerConfiguration$Factory;Ltv/twitch/android/shared/player/models/ContentFormat;ZILjava/lang/Object;)Ltv/twitch/android/shared/player/models/PlayerConfiguration;
+ 
